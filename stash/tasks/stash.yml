@@ -1,11 +1,13 @@
 ---
-    - name: Stash files
+    - name: Find war files
+      ansible.builtin.find:
+        paths: "/path/to/checkout/target/"
+        patterns: "*.war"
+      register: war_files
+
+    - name: Copy war files to Jenkins-mid-project-calc directory
       ansible.builtin.copy:
-        src: /path/to/checkout/target/*.war
-        dest: JenkinsProject
-    - name: Transfer stash to other server group
-      ansible.builtin.copy:
-        src: JenkinsProject
-        dest: /opt/tomcat/webapps/
-      delegate_to: g2
+        src: "{{ item.path }}"
+        dest: Jenkins-mid-project-calc/
+      with_items: "{{ war_files.files }}"
 ...
