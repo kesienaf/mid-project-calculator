@@ -29,12 +29,6 @@
     - name: System CTL
       ansible.builtin.command: "systemctl daemon-reload"
       become: yes
-  
-    - name: Start Tomcat service with systemd
-      ansible.builtin.systemd:
-        name: tomcat
-        state: started
-      become: yes
 
     - name: Start Tomcat service
       ansible.builtin.command: "/opt/tomcat/bin/startup.sh"
