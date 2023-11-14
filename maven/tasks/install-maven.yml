@@ -41,6 +41,7 @@
     - command: chmod +x /etc/profile.d/maven.sh
       become: yes
 
-    - command: source /etc/profile.d/maven.sh
+    - name: Reload shell environment
+      command: bash -c "source /etc/profile.d/maven.sh"
       become: yes
 ...
