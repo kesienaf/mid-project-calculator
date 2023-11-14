@@ -1,7 +1,4 @@
 ---
-- name: Find and Copy war files
-  hosts: localhost
-  tasks:
     - name: Find war files
       ansible.builtin.find:
         paths: "/path/to/checkout/target/"
