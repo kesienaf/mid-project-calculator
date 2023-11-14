@@ -8,14 +8,14 @@
       command: "tar xvf apcahe-tomcat-7.0.94.tar.gz -C /opt/"
 
     - name: Rename Tomcat directory
-      command: "mv /opt/apache-tomcat-7.0.94 /opt/tomcat"
+      command: "mv /opt/apache-tomcat-7.0.94/* /opt/tomcat"
       args:
-        creates: /opt/apache-tomcat-7.0.94/bin/startup.sh  # Skip if files are already present
+        creates: /opt/tomcat/bin/startup.sh  # Skip if files are already present
 
     - name: Set environment variables
       lineinfile:
         path: "/etc/environment"
-        line: "CATALINA_HOME=/opt/apache-tomcat-7.0.94"
+        line: "CATALINA_HOME=/opt/tomcat"
         create: yes
     
     - name: System CTL
@@ -23,5 +23,5 @@
       become: yes
 
     - name: Start Tomcat service
-      command: "/opt/apache-tomcat-7.0.94/bin/startup.sh"  
+      command: "/opt/tomcat/bin/startup.sh"  
 ...
