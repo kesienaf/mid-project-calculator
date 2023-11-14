@@ -29,8 +29,17 @@
     - name: System CTL
       ansible.builtin.command: "systemctl daemon-reload"
       become: yes
+      when: "'systemd' in ansible_playbook_python | lower and ansible_distribution_major_version|int >= 7"
+  
+  - name: Start Tomcat service with systemd
+    ansible.builtin.systemd:
+      name: tomcat
+      state: started
+    become: yes
+    when: "'systemd' in ansible_playbook_python | lower"
 
     - name: Start Tomcat service
       ansible.builtin.command: "/opt/tomcat/bin/startup.sh"
       become: yes
+      when: "'systemd' not in ansible_playbook_python | lower"
 ...
