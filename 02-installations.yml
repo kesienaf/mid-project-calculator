@@ -27,6 +27,11 @@
         name: openjdk-11-jdk
         state: present
       when: ansible_distribution == 'Ubuntu'
+      environment:
+        DEBIAN_FRONTEND: noninteractive
+        APT_LISTCHANGES_FRONTEND: none
+        APT_LISTBUGS_FRONTEND: none
+        APTTRANSPORT: "http"
 
     - name: Install Java on CentOS
       yum:
