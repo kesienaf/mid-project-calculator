@@ -15,6 +15,14 @@
       args:
         creates: /opt/apache-tomcat-7.0.94/  # Skip extraction if directory already present
 
+    - name: Create /opt/tomcat directory
+      file:
+        path: /opt/tomcat
+        state: directory
+      args:
+        creates: /opt/tomcat/  # Skip extraction if directory already present
+      become: yes
+
     - name: Move Tomcat contents to /opt/tomcat
       ansible.builtin.command: "mv /opt/apache-tomcat-7.0.94/* /opt/tomcat/"
       args:
