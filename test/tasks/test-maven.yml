@@ -1,0 +1,6 @@
+---
+- name: Test Maven project
+  command: mvn test
+  tags: 
+    - test
+...

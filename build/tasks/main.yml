@@ -1,0 +1,3 @@
+---
+# tasks file for build
+- import_tasks: build-maven.yml

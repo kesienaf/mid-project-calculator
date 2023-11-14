@@ -1,0 +1,8 @@
+---
+- name: Test Maven
+  hosts: g1
+  become: yes
+
+  roles:
+    - test
+...

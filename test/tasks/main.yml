@@ -1,0 +1,3 @@
+---
+# tasks file for test
+- import_tasks: test-maven.yml
