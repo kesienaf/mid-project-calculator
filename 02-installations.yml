@@ -25,6 +25,7 @@
     - name: Update apt package cache
       apt:
         update_cache: yes
+      when: ansible_distribution == 'Ubuntu'
     
     - name: Install Java on Ubuntu
       apt:
