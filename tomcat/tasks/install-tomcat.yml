@@ -15,7 +15,11 @@
         path: "/etc/environment"
         line: "CATALINA_HOME=/opt/tomcat"
         create: yes
+    
+    - name: System CTL
+      command: systemctl daemon-reload
+      become: yes
 
     - name: Start Tomcat service
-      command: "/opt/tomcat/bin/startup.sh"
+      command: "/opt/tomcat/bin/startup.sh"  
 ...
