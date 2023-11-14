@@ -1,9 +1,4 @@
 ---
-- name: Install HTTPD
-  hosts: g1
-  become: yes
-
-  tasks:
     - name: Install Apache on Ubuntu
       apt:
         name: apache2

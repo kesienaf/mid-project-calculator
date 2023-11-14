@@ -1,9 +1,4 @@
 ---
-- name: Install Git
-  hosts: g1
-  become: yes
-
-  tasks:
     - name: Install Git on Ubuntu
       apt:
         name: git

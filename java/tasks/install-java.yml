@@ -1,9 +1,4 @@
 ---
-- name: Install Git, Java 11, Maven and HTTPD
-  hosts: g1
-  become: yes
-
-  tasks:
     - name: Update apt package cache
       apt:
         update_cache: yes

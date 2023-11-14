@@ -1,9 +1,4 @@
 ---
-- name: Install Apache Maven
-  hosts: g1
-  become: yes
-
-  tasks:
     - name: Install Maven on Ubuntu
       apt:
         name: maven
