@@ -1,36 +1,37 @@
 ---
-- name: Download and extract Apache Tomcat 7.0.94
-  shell: "wget https://archive.apache.org/dist/tomcat/tomcat-7/v7.0.94/bin/apache-tomcat-7.0.94.tar.gz -O /opt/apache-tomcat-7.0.94.tar.gz"
-  args:
-    creates: /opt/apache-tomcat-7.0.94.tar.gz  # Skip download if already present
-
-- name: Extract the Tomcat archive
-  command: "tar xvf /opt/apache-tomcat-7.0.94.tar.gz -C /opt/"
-  args:
-    creates: /opt/apache-tomcat-7.0.94/  # Skip extraction if directory already present
-
-- name: Move Tomcat contents to /opt/tomcat
-  command: "mv /opt/apache-tomcat-9.0.56/* /opt/tomcat/"
-  args:
-    creates: /opt/tomcat/bin/startup.sh  # Skip if files are already present
-
-- name: Set environment variables
-  lineinfile:
-    path: "/etc/environment"
-    line: "CATALINA_HOME=/opt/tomcat"
-    create: yes
-
-- name: System CTL
-  command: "systemctl daemon-reload"
+- name: Install Apache Tomcat 7.0.94 on Ubuntu, CentOS, and Amazon Linux
+  hosts: all
   become: yes
+  tasks:
+    - name: Download and extract Apache Tomcat 7.0.94
+      ansible.builtin.get_url:
+        url: "https://archive.apache.org/dist/tomcat/tomcat-7/v7.0.94/bin/apache-tomcat-7.0.94.tar.gz"
+        dest: "/opt/apache-tomcat-7.0.94.tar.gz"
+      args:
+        creates: /opt/apache-tomcat-7.0.94.tar.gz  # Skip download if already present
 
-- name: Shutdown Tomcat service
-  command: "/opt/apache-tomcat-7.0.94/bin/shutdown.sh"
-  args:
-    chdir: "/opt/apache-tomcat-7.0.94/bin/"  # Change to the bin directory before running the startup script
+    - name: Extract the Tomcat archive
+      ansible.builtin.command: "tar xvf /opt/apache-tomcat-7.0.94.tar.gz -C /opt/"
+      args:
+        creates: /opt/apache-tomcat-7.0.94/  # Skip extraction if directory already present
 
-- name: Start Tomcat service
-  command: "/opt/apache-tomcat-7.0.94/bin/startup.sh"
-  args:
-    chdir: "/opt/apache-tomcat-7.0.94/bin/"  # Change to the bin directory before running the startup script
+    - name: Move Tomcat contents to /opt/tomcat
+      ansible.builtin.command: "mv /opt/apache-tomcat-7.0.94/* /opt/tomcat/"
+      args:
+        creates: /opt/tomcat/bin/startup.sh  # Skip if files are already present
+
+    - name: Set environment variables
+      ansible.builtin.lineinfile:
+        path: "/etc/environment"
+        line: "CATALINA_HOME=/opt/tomcat"
+        create: yes
+
+    - name: System CTL
+      ansible.builtin.command: "systemctl daemon-reload"
+
+    - name: Shutdown Tomcat service
+      ansible.builtin.command: "/opt/tomcat/bin/shutdown.sh"
+
+    - name: Start Tomcat service
+      ansible.builtin.command: "/opt/tomcat/bin/startup.sh"
 ...
