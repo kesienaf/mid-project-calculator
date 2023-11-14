@@ -24,6 +24,11 @@
   command: "systemctl daemon-reload"
   become: yes
 
+- name: Shutdown Tomcat service
+  command: "/opt/apache-tomcat-7.0.94/bin/shutdown.sh"
+  args:
+    chdir: "/opt/apache-tomcat-7.0.94/bin/"  # Change to the bin directory before running the startup script
+
 - name: Start Tomcat service
   command: "/opt/apache-tomcat-7.0.94/bin/startup.sh"
   args:
