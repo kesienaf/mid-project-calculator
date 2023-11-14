@@ -13,4 +13,9 @@
     chdir: /path/to/checkout
   tags: 
     - test
+
+- name: Compile war files
+  command: "stash name='Jenkins-Mid-Project' includes='target/*.war'"
+  tags: 
+    - stash
 ...
