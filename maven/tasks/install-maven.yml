@@ -43,8 +43,4 @@
 
     - command: source /etc/profile.d/maven.sh
       become: yes
-
-  handlers:
-    - name: reload shell environment
-      shell: "exec bash"
 ...
