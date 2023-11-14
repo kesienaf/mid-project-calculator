@@ -1,6 +1,8 @@
 ---
 - name: Test Maven project
   command: /opt/maven/bin/mvn test
+  args:
+    chdir: /home/centos/mid-project-calculator
   tags: 
     - test
 ...
