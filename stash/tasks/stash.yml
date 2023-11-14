@@ -9,5 +9,5 @@
       ansible.builtin.copy:
         src: "/path/to/checkout/target/*.war"
         dest: Jenkins-mid-project-calc/
-      with_items: "{{ war_files.files }}"
+      with_items: "war_files.files"
 ...
