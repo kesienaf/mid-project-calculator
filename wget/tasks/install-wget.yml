@@ -4,4 +4,16 @@
         name: wget
         state: present
       when: ansible_distribution == 'CentOS'
+    
+    - name: Install Wget on Amazon Linux
+      dnf:
+        name: wget
+        state: present
+      when: ansible_distribution == 'Amazon'
+    
+    - name: Install Wget on CentOS
+      apt:
+        name: wget
+        state: present
+      when: ansible_distribution == 'Ubuntu'
 ...

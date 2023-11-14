@@ -5,6 +5,7 @@
 
   roles:
     - git
+    - wget
     - java
     - http
     - tomcat
