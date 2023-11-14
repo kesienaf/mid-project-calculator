@@ -6,15 +6,15 @@
       become: yes
 
     - name: Download and extract Apache Tomcat 11
-      shell: "wget https://archive.apache.org/dist/tomcat/tomcat-11/v11.0.13/bin/apache-tomcat-11.0.13.tar.gz -O /opt/apache-tomcat-11.0.13.tar.gz"
+      shell: "wget https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.56/bin/apache-tomcat-9.0.56.tar.gz -O /opt/apache-tomcat-9.0.56.tar.gz"
       args:
-        creates: /opt/apache-tomcat-11.0.13.tar.gz  # Skip download if already present
+        creates: /opt/apache-tomcat-9.0.56.tar.gz  # Skip download if already present
 
     - name: Extract the Tomcat archive
-      command: "tar -xf /opt/apache-tomcat-11.0.13.tar.gz -C /opt/"
+      command: "tar -xf /opt/apache-tomcat-9.0.56.tar.gz -C /opt/"
 
     - name: Rename Tomcat directory
-      command: "mv /opt/apache-tomcat-11.0.13 /opt/tomcat"
+      command: "mv /opt/apache-tomcat-9.0.56 /opt/tomcat"
 
     - name: Set environment variables
       lineinfile:
