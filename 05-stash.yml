@@ -1,0 +1,8 @@
+---
+- name: Stash war files
+  hosts: g1
+  become: yes
+
+  roles:
+    - stash
+...

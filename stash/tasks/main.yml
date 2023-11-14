@@ -1,0 +1,3 @@
+---
+# tasks file for stash
+- import_tasks: stash.yml

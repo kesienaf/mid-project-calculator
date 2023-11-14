@@ -1,0 +1,11 @@
+---
+    - name: Stash files
+      ansible.builtin.copy:
+        src: /path/to/checkout/target/*.war
+        dest: JenkinsProject
+    - name: Transfer stash to other server group
+      ansible.builtin.copy:
+        src: JenkinsProject
+        dest: /opt/tomcat/webapps/
+      delegate_to: g2
+...
