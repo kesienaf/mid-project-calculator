@@ -28,10 +28,13 @@
 
     - name: System CTL
       ansible.builtin.command: "systemctl daemon-reload"
+      become: yes
 
     - name: Shutdown Tomcat service
       ansible.builtin.command: "/opt/tomcat/bin/shutdown.sh"
+      become: yes
 
     - name: Start Tomcat service
       ansible.builtin.command: "/opt/tomcat/bin/startup.sh"
+      become: yes
 ...
