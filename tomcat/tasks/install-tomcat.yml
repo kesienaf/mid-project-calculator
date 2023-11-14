@@ -15,12 +15,16 @@
       args:
         creates: /opt/apache-tomcat-7.0.94/  # Skip extraction if directory already present
 
+    - name: Check if /opt/tomcat directory already exists
+      ansible.builtin.stat:
+        path: "/opt/tomcat"
+      register: tomcat_directory
+
     - name: Create /opt/tomcat directory
-      file:
+      ansible.builtin.file:
         path: /opt/tomcat
         state: directory
-      args:
-        creates: /opt/tomcat/  # Skip extraction if directory already present
+      when: not tomcat_directory.stat.exists
       become: yes
 
     - name: Move Tomcat contents to /opt/tomcat
