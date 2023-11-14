@@ -1,6 +1,6 @@
 ---
 - name: Test Maven project
-  command: mvn test
+  command: /opt/maven/bin/mvn test
   tags: 
     - test
 ...
