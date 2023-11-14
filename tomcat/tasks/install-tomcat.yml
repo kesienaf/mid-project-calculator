@@ -9,6 +9,17 @@
   args:
     creates: /opt/apache-tomcat-7.0.94/  # Skip extraction if directory already present
 
+- name: Move Tomcat contents to /opt/tomcat
+  command: "mv /opt/apache-tomcat-9.0.56/* /opt/tomcat/"
+  args:
+    creates: /opt/tomcat/bin/startup.sh  # Skip if files are already present
+
+- name: Set environment variables
+  lineinfile:
+    path: "/etc/environment"
+    line: "CATALINA_HOME=/opt/tomcat"
+    create: yes
+
 - name: System CTL
   command: "systemctl daemon-reload"
   become: yes
