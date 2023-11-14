@@ -1,4 +1,0 @@
----
-    - name: reload shell environment
-      shell: "exec bash"
-...
