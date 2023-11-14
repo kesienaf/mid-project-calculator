@@ -7,7 +7,7 @@
 
     - name: Copy war files to Jenkins-mid-project-calc directory
       ansible.builtin.copy:
-        src: "{{ /path/to/checkout/target/*.war }}"
+        src: "/path/to/checkout/target/*.war"
         dest: Jenkins-mid-project-calc/
       with_items: "{{ war_files.files }}"
 ...
