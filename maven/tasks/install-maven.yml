@@ -34,6 +34,8 @@
           export MAVEN_HOME=/opt/maven
           export PATH=${M2_HOME}/bin:${PATH} 
       notify: reload shell environment
+      args:
+        create: /etc/profile.d/maven.sh  # Skip if already present
       become: yes
 
     - command: chmod +x /etc/profile.d/maven.sh
