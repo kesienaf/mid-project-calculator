@@ -1,3 +1,2 @@
 ---
 # vars file for build
-- import_tasks: sshkey.yml
