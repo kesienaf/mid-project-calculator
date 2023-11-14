@@ -1,0 +1,24 @@
+---
+- name: Install Apache Maven
+  hosts: g1
+  become: yes
+
+  tasks:
+    - name: Install Maven on Ubuntu
+      apt:
+        name: maven
+        state: present
+      when: ansible_distribution == 'Ubuntu'
+
+    - name: Install Maven on CentOS
+      yum:
+        name: maven
+        state: present
+      when: ansible_distribution == 'CentOS'
+
+    - name: Install Maven on Amazon Linux
+      dnf:
+        name: maven
+        state: present
+      when: ansible_distribution == 'Amazon'
+...
