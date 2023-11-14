@@ -28,7 +28,8 @@
       become: yes
 
     - name: Move Tomcat contents to /opt/tomcat
-      ansible.builtin.command: "mv /opt/apache-tomcat-7.0.94/* /opt/tomcat/"
+      ansible.builtin.shell:
+        cmd: "mv /opt/apache-tomcat-7.0.94/* /opt/tomcat/"
       args:
         creates: /opt/tomcat/bin/startup.sh  # Skip if files are already present
       become: yes
