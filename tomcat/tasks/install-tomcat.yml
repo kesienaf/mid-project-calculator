@@ -19,6 +19,7 @@
       ansible.builtin.command: "mv /opt/apache-tomcat-7.0.94/* /opt/tomcat/"
       args:
         creates: /opt/tomcat/bin/startup.sh  # Skip if files are already present
+      become: yes
 
     - name: Set environment variables
       ansible.builtin.lineinfile:
