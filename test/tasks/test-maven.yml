@@ -15,9 +15,20 @@
     - test
 
 - name: Compile war files
+  debug:
+    msg: "Checking if files exist before stashing"
+  tags:
+    - stash
+
+- name: Compile war files
+  command: "ls -l /path/to/checkout/target"
+  tags:
+    - stash
+
+- name: Compile war files
   command: "stash name='Jenkins-Mid-Project' includes='target/*.war'"
   args:
     chdir: /path/to/checkout
-  tags: 
+  tags:
     - stash
 ...
