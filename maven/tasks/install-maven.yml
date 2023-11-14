@@ -1,19 +1,49 @@
 ---
-    - name: Install Maven on Ubuntu
-      apt:
-        name: maven
-        state: present
-      when: ansible_distribution == 'Ubuntu'
+- name: Install Maven on CentOS
+  hosts: localhost
+  become: yes  # Run tasks with elevated privileges (sudo)
 
-    - name: Install Maven on CentOS
+  tasks:
+    - name: Install wget (if not already installed)
       yum:
-        name: maven
-        state: present
-      when: ansible_distribution == 'CentOS'
+        name: wget
+        state: present  # Ensure wget is installed
 
-    - name: Install Maven on Amazon Linux
-      dnf:
-        name: maven
-        state: present
-      when: ansible_distribution == 'Amazon'
+    - name: Download Apache Maven
+      shell: "wget https://dlcdn.apache.org/maven/maven-3/3.9.5/binaries/apache-maven-3.9.5-bin.tar.gz -O /tmp/apache-maven-3.9.5-bin.tar.gz"
+      args:
+        creates: /tmp/apache-maven-3.9.5-bin.tar.gz  # Skip download if already present
+
+    - name: Extract Maven archive
+      shell: "tar xzf /tmp/apache-maven-3.9.5-bin.tar.gz -C /opt"
+      args:
+        creates: /opt/apache-maven-3.9.5  # Skip extraction if already present
+
+    - name: Create symbolic link to Maven
+      file:
+        src: /opt/apache-maven-3.9.5
+        dest: /opt/maven
+        state: link
+        force: yes
+
+    - name: Set Maven environment variables
+      lineinfile:
+        path: /etc/profile.d/maven.sh
+        create: yes
+        line: |
+          export JAVA_HOME=/usr/lib/jvm/jre-openjdk
+          export M2_HOME=/opt/maven
+          export MAVEN_HOME=/opt/maven
+          export PATH=${M2_HOME}/bin:${PATH} 
+      notify: reload shell environment
+      args:
+        creates: /etc/profile.d/maven.sh  # Skip if already present
+
+    - command: chmod +x /etc/profile.d/maven.sh
+
+    - command: source /etc/profile.d/maven.sh
+
+  handlers:
+    - name: reload shell environment
+      shell: "exec bash"
 ...

@@ -1,11 +1,11 @@
 ---
-- name: Install Git, Java 11, Maven and HTTPD
+- name: Install Git, Java 11, Wget and Maven
   hosts: g1
   become: yes
 
   roles:
     - git
     - java
+    - wget
     - maven
-    - http
 ...

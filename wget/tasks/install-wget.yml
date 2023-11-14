@@ -1,7 +1,7 @@
 ---
-    - name: Install Java on CentOS
+    - name: Install Wget on CentOS
       yum:
-        name: java-11-openjdk
+        name: wget
         state: present
       when: ansible_distribution == 'CentOS'
 ...
