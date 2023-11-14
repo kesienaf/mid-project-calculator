@@ -16,10 +16,6 @@
 - name: Start Tomcat service
   command: "/opt/apache-tomcat-7.0.94/bin/startup.sh"
 
-- name: Start Tomcat
-  command: "systemctl start tomcat"
-  become: yes
-
 - name: Enable Tomcat
   command: "systemctl enable tomcat"
   become: yes
