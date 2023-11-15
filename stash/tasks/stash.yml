@@ -5,9 +5,11 @@
         patterns: "*.war"
       register: war_files
 
-    - name: Copy war files to Jenkins-mid-project-calc directory
-      ansible.builtin.copy:
+    - name: Copy .war files to destination servers
+      synchronize:
         src: "{{ item.path }}"
-        dest: Jenkins-mid-project-calc/
-      loop: "{{ war_files.files }}"
+        dest: /opt/tomcat/webapps
+      delegate_to: "{{ g2 }}"
+      with_items: "{{ war_files.files }}"
+      when: war_files.matched > 0
 ...
