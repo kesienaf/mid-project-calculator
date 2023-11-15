@@ -9,7 +9,9 @@
       synchronize:
         src: "{{ item.path }}"
         dest: /opt/tomcat/webapps
-      delegate_to: "{{ n2, n3, n4 }}"
+      delegate_to: "{{ item.ansible_host }}"
+      with_items:
+        - "{{ groups['g2'] }}"
       with_items: "{{ war_files.files }}"
       when: war_files.matched > 0
 ...
