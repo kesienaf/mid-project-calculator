@@ -2,10 +2,17 @@
 - name: Transfer WAR files
   hosts: g1
   tasks:
-    - name: Copy WAR file to destination
+    - name: Find WAR files in source directory
+      ansible.builtin.find:
+        paths: /path/to/checkout/target/
+        patterns: '*.war'
+      register: war_files
+
+    - name: Copy WAR files to destination
       ansible.builtin.copy:
-        src: /path/to/checkout/target/*.war
+        src: "{{ item.path }}"
         dest: /opt/tomcat/webapps/
+      with_items: "{{ war_files.files }}"
       remote_src: yes
 
 - name: Ensure Tomcat directory exists
