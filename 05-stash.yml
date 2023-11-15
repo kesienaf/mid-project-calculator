@@ -2,11 +2,18 @@
 - name: Transfer WAR files
   hosts: g1
   tasks:
+    - name: Ensure source directory exists
+      ansible.builtin.file:
+        path: /path/to/checkout/target/
+        state: directory
+      become: yes
+
     - name: Synchronize WAR files to destination
       ansible.builtin.synchronize:
         src: /path/to/checkout/target/
         dest: /opt/tomcat/webapps/
         rsync_opts: --include='*.war' --exclude='*'
+      become: yes
 
 - name: Ensure Tomcat directory exists
   hosts: g2
@@ -15,6 +22,7 @@
       ansible.builtin.file:
         path: /opt/tomcat/webapps/
         state: directory
+      become: yes
 
     - name: Set permissions for Tomcat directory
       ansible.builtin.file:
@@ -22,4 +30,5 @@
         mode: '0755'
       when: "'0755' != (item.stat.mode | regex_replace('(\\d{3})$', '\\1'))"
       loop: "{{ ansible_play_batch }}"
+      become: yes
 ...
