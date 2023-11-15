@@ -1,17 +1,19 @@
 ---
-- name: Stash war files
-  hosts: g1, g2
-  become: yes
-
-  roles:
-    - stash
-  
+- name: Transfer WAR files
+  hosts: g2
   tasks:
-    - name: Copy .war files to destination servers
-      synchronize:
+    - name: Copy WAR files to a temporary directory
+      ansible.builtin.copy:
         src: /path/to/checkout/target/
-        dest: /opt/tomcat/webapps
-      delegate_to: "{{ item }}"
-      with_items: "{{ groups['g2'] }}"
-      when: war_files.matched > 0
+        dest: /tmp/app.war
+      become: yes
+
+- name: Deploy WAR files to another server
+  hosts: g2
+  tasks:
+    - name: Transfer WAR files to destination server
+      ansible.builtin.copy:
+        src: /tmp/app.war
+        dest: /opt/tomcat/webapps/
+      become: yes
 ...
