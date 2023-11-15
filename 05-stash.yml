@@ -4,7 +4,7 @@
   tasks:
     - name: Synchronize WAR files to a temporary directory
       ansible.builtin.synchronize:
-        src: "/path/to/checkout/target/"
+        src: "/path/to/checkout/target"
         dest: "/tmp/"
         rsync_opts: --include='*.war' --exclude='*'
       become: yes
