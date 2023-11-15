@@ -9,7 +9,7 @@
       synchronize:
         src: "{{ item.path }}"
         dest: /opt/tomcat/webapps
-      delegate_to: "{{ g2 }}"
+      delegate_to: "{{ n2, n3, n4 }}"
       with_items: "{{ war_files.files }}"
       when: war_files.matched > 0
 ...
