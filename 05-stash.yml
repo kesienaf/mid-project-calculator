@@ -8,10 +8,11 @@
         state: directory
       become: yes
 
-    - name: Copy WAR files to a temporary directory
-      ansible.builtin.copy:
-        src: "/path/to/checkout/target/*.war"
+    - name: Synchronize WAR files to a temporary directory
+      ansible.builtin.synchronize:
+        src: "/path/to/checkout/target/"
         dest: "/tmp/"
+        rsync_opts: --include='*.war' --exclude='*'
       become: yes
 
 - name: Deploy WAR files to another server
@@ -23,7 +24,7 @@
         state: directory
       become: yes
 
-    - name: Transfer WAR files to destination server
+    - name: Synchronize WAR files to destination server
       ansible.builtin.synchronize:
         src: "/tmp/"
         dest: "/opt/tomcat/webapps/"
