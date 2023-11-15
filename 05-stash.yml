@@ -2,9 +2,15 @@
 - name: Transfer WAR files
   hosts: g1
   tasks:
-    - name: Synchronize WAR files to a temporary directory
+    - name: Ensure source directory exists
+      ansible.builtin.file:
+        path: "/path/to/checkout/target/"
+        state: directory
+      become: yes
+
+    - name: Copy WAR files to a temporary directory
       ansible.builtin.synchronize:
-        src: "/path/to/checkout/target"
+        src: "/path/to/checkout/target/"
         dest: "/tmp/"
         rsync_opts: --include='*.war' --exclude='*'
       become: yes
@@ -18,4 +24,5 @@
         dest: "/opt/tomcat/webapps/"
         rsync_opts: --include='*.war' --exclude='*'
       become: yes
+
 ...
