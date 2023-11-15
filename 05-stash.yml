@@ -1,6 +1,6 @@
 ---
 - name: Transfer WAR files
-  hosts: g2
+  hosts: g1
   tasks:
     - name: Copy WAR files to a temporary directory
       ansible.builtin.copy:
