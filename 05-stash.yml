@@ -2,32 +2,9 @@
 - name: Transfer WAR files
   hosts: g1
   tasks:
-    - name: Ensure source directory exists
-      ansible.builtin.file:
-        path: "/path/to/checkout/target/"
-        state: directory
-      become: yes
-
-    - name: Synchronize WAR files to a temporary directory
-      ansible.builtin.synchronize:
-        src: "/path/to/checkout/target/"
-        dest: "/tmp/"
-        rsync_opts: --include='*.war' --exclude='*'
-      become: yes
-
-- name: Deploy WAR files to another server
-  hosts: g2
-  tasks:
-    - name: Ensure destination directory exists
-      ansible.builtin.file:
-        path: "/opt/tomcat/webapps/"
-        state: directory
-      become: yes
-
-    - name: Synchronize WAR files to destination server
-      ansible.builtin.synchronize:
-        src: "/tmp/"
-        dest: "/opt/tomcat/webapps/"
-        rsync_opts: --include='*.war' --exclude='*'
-      become: yes
+    - name: Transfer file from ServerA to ServerB
+      synchronize:
+        src: /path/to/checkout/target/
+        dest: /opt/tomcat/webapps
+      delegate_to: g2
 ...
