@@ -9,7 +9,7 @@
   tasks:
     - name: Copy .war files to destination servers
       synchronize:
-        src: "{{ item.path }}"
+        src: /path/to/checkout/target/
         dest: /opt/tomcat/webapps
       delegate_to: "{{ item }}"
       with_items: "{{ groups['g2'] }}"
