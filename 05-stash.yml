@@ -1,18 +1,18 @@
 ---  
-  - name: Transfer WAR files
-  - hosts: g1
-    tasks:
-      - name: Copy WAR file to destination
-        ansible.builtin.copy:
-          src: /path/to/checkout/target/*.war
-          dest: /opt/tomcat/webapps/
-        remote_src: yes
+- name: Transfer WAR files
+- hosts: g1
+  tasks:
+    - name: Copy WAR file to destination
+      ansible.builtin.copy:
+        src: /path/to/checkout/target/*.war
+        dest: /opt/tomcat/webapps/
+      remote_src: yes
 
-  - hosts: g2
-    tasks:
-      - name: Ensure Tomcat directory exists
-        ansible.builtin.file:
-          path: /opt/tomcat/webapps/
-          state: directory
-        mode: '0755'
+- hosts: g2
+  tasks:
+    - name: Ensure Tomcat directory exists
+      ansible.builtin.file:
+        path: /opt/tomcat/webapps/
+        state: directory
+      mode: '0755'
 ...
