@@ -4,8 +4,8 @@
   tasks:
     - name: Copy WAR files to a temporary directory
       ansible.builtin.copy:
-        src: /path/to/checkout/target/
-        dest: /tmp/app.war
+        src: "/path/to/checkout/target/*.war"
+        dest: /tmp/
       become: yes
 
 - name: Deploy WAR files to another server
@@ -13,7 +13,7 @@
   tasks:
     - name: Transfer WAR files to destination server
       ansible.builtin.copy:
-        src: /tmp/app.war
+        src: "/tmp/*.war"
         dest: /opt/tomcat/webapps/
       become: yes
 ...
