@@ -6,5 +6,5 @@
       synchronize:
         src: /path/to/checkout/target/
         dest: /opt/tomcat/webapps
-      delegate_to: g2
+      delegate_to: n2
 ...
