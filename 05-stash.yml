@@ -2,7 +2,6 @@
 - name: Transfer WAR files
   hosts: g1
   tasks:
-  
     - name: Find WAR files in source directory
       ansible.builtin.find:
         paths: /path/to/checkout/target/
@@ -18,9 +17,13 @@
 - name: Ensure Tomcat directory exists
   hosts: g2
   tasks:
+    - name: Set the mode for the directory
+      ansible.builtin.set_fact:
+        tomcat_dir_mode: '0755'
+
     - name: Ensure Tomcat directory exists
       ansible.builtin.file:
         path: /opt/tomcat/webapps/
         state: directory
-      mode: '0755'
+        mode: "{{ tomcat_dir_mode }}"
 ...
