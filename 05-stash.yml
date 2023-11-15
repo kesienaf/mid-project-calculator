@@ -4,7 +4,7 @@
   tasks:
     - name: Transfer file from ServerA to ServerB
       synchronize:
-        src: /path/to/checkout/target/
-        dest: /opt/tomcat/webapps
+        src: /path/to/checkout/target/WebAppCal-0.0.6.war
+        dest: /opt/tomcat/webapps/
       delegate_to: g2
 ...
