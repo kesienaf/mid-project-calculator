@@ -1,5 +1,5 @@
 ---  
-- name: Transfer WAR files
+  - name: Transfer WAR files
   - hosts: g1
     tasks:
       - name: Copy WAR file to destination
