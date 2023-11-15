@@ -1,6 +1,6 @@
 ---
 - name: Stash war files
-  hosts: g1
+  hosts: g1, g2
   become: yes
 
   roles:
@@ -12,7 +12,6 @@
         src: "{{ item.path }}"
         dest: /opt/tomcat/webapps
       delegate_to: "{{ item.ansible_host }}"
-      with_items: "{{ groups['g2'] }}"
       with_items: "{{ war_files.files }}"
       when: war_files.matched > 0
 ...
