@@ -2,28 +2,18 @@
 - name: Transfer WAR files
   hosts: g1
   tasks:
-    - name: Find WAR files in source directory
-      ansible.builtin.find:
-        paths: /path/to/checkout/target/
-        patterns: '*.war'
-      register: war_files
-
-    - name: Copy WAR files to destination
-      ansible.builtin.copy:
-        src: "{{ item.path }}"
+    - name: Synchronize WAR files to destination
+      ansible.builtin.synchronize:
+        src: /path/to/checkout/target/
         dest: /opt/tomcat/webapps/
-      with_items: "{{ war_files.files }}"
+        rsync_opts: --include='*.war' --exclude='*'
 
 - name: Ensure Tomcat directory exists
   hosts: g2
   tasks:
-    - name: Set the mode for the directory
-      ansible.builtin.set_fact:
-        tomcat_dir_mode: '0755'
-
     - name: Ensure Tomcat directory exists
       ansible.builtin.file:
         path: /opt/tomcat/webapps/
         state: directory
-        mode: "{{ tomcat_dir_mode }}"
+      mode: '0755'
 ...
