@@ -2,6 +2,7 @@
 - name: Transfer WAR files
   hosts: g1
   tasks:
+  
     - name: Find WAR files in source directory
       ansible.builtin.find:
         paths: /path/to/checkout/target/
