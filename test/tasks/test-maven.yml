@@ -9,8 +9,6 @@
 
 - name: Test Maven project
   command: /opt/maven/bin/mvn test
-  args:
-    chdir: /path/to/checkout
   tags: 
     - test
 
