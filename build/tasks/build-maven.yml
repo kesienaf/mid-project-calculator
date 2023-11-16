@@ -2,6 +2,7 @@
 - name: Checkout source code
   git:
     repo: "https://github.com/kesienaf/mid-project-calc-jenkins.git"
+    dest: "/target/"
     version: "master"
   tags: 
     - checkout
