@@ -1,4 +1,46 @@
 ---
+---
+- name: Move WAR files
+  hosts: g1
+  tasks:
+    - name: Ensure source directory exists
+      ansible.builtin.file:
+        path: /home/centos/mid-project-calculator/target/
+        state: directory
+      become: yes
+
+    - name: Stash WAR files
+      ansible.builtin.find:
+        paths: /home/centos/mid-project-calculator/target/
+        patterns: "*.war"
+      register: war_files
+
+    - name: Copy WAR files to Ansible Controller
+      ansible.builtin.fetch:
+        src: "{{ item.path }}"
+        dest: "/opt/tomcat/webapps/"
+        flat: yes
+      with_items: "{{ war_files.files }}"
+      become: yes
+
+- name: Deploy WAR files
+  hosts: g2
+  tasks:
+    - name: Ensure destination directory exists
+      ansible.builtin.file:
+        path: /opt/tomcat/webapps/
+        state: directory
+      become: yes
+
+    - name: Copy WAR files to destination servers
+      ansible.builtin.copy:
+        src: "/opt/tomcat/webapps/{{ item.path | basename }}"
+        dest: "/opt/tomcat/webapps/{{ item.path | basename }}"
+      with_items: "{{ war_files.files }}"
+      become: yes
+
+
+
 - name: Transfer WAR files
   hosts: g1
   tasks:
