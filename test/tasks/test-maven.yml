@@ -1,25 +1,6 @@
 ---
-- name: Checkout source code
-  git:
-    repo: "https://github.com/kesienaf/mid-project-calc-jenkins.git"
-    dest: "/path/to/checkout"
-    version: "master"
-  tags: 
-    - checkout
-
 - name: Test Maven project
   command: /opt/maven/bin/mvn test
-  args:
-    chdir: "/path/to/checkout"
   tags: 
     - test
-
-- name: Compile war files
-  debug:
-    msg: "Checking if files exist before stashing"
-  tags:
-    - stash
-
-- name: Test Maven project
-  command: ls /path/to/checkout
 ...
