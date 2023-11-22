@@ -1,20 +1,13 @@
 ---
 - name: Transfer WAR files
-  hosts: g1, g2
+  hosts: g1
   tasks:
     - name: Ensure source directory exists
       ansible.builtin.file:
         path: /home/centos/mid-project-calculator/target/
         state: directory
       become: yes
-      delegate_to: g1 # This delegates the task to host g1
-
-    - name: Ensure destination directory exists on g2
-      ansible.builtin.file:
-        path: /opt/tomcat/webapps/
-        state: directory
-      become: yes
-      delegate_to: g2  # This delegates the task to host g2
+      delegate_to: g1 
 
     - name: Synchronize WAR files to destination
       ansible.builtin.synchronize:
