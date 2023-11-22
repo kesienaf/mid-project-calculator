@@ -1,6 +1,16 @@
 ---
+- name: Checkout source code
+  git:
+    repo: "https://github.com/kesienaf/mid-project-calc-jenkins.git"
+    dest: "/home/centos/mid-project-calculator"
+    version: "master"
+  tags: 
+    - checkout
+
 - name: Test Maven project
   command: /opt/maven/bin/mvn test
+  args:
+    chdir: "/home/centos/mid-project-calculator"
   tags: 
     - test
 ...
