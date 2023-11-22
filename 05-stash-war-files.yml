@@ -8,6 +8,13 @@
         state: directory
       become: yes
 
+    - name: Ensure destination directory exists on g2
+      ansible.builtin.file:
+        path: /opt/tomcat/webapps/
+        state: directory
+      become: yes
+      delegate_to: g2  # This delegates the task to host g2
+      
     - name: Synchronize WAR files to destination
       ansible.builtin.synchronize:
         src: /home/centos/mid-project-calculator/target/
