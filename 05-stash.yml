@@ -4,13 +4,13 @@
   tasks:
     - name: Ensure source directory exists
       ansible.builtin.file:
-        path: /path/to/checkout/target/
+        path: /home/centos/mid-project-calculator/target/
         state: directory
       become: yes
 
     - name: Synchronize WAR files to destination
       ansible.builtin.synchronize:
-        src: /path/to/checkout/target/
+        src: /home/centos/mid-project-calculator/target/
         dest: /opt/tomcat/webapps/
         rsync_opts: --include='*.war' --exclude='*'
       become: yes
