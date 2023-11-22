@@ -7,6 +7,7 @@
         path: /home/centos/mid-project-calculator/target/
         state: directory
       become: yes
+      delegate_to: g1 # This delegates the task to host g1
 
     - name: Ensure destination directory exists on g2
       ansible.builtin.file:
