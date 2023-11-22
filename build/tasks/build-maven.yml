@@ -1,4 +1,11 @@
 ---
+- name: Checkout source code
+  git:
+    repo: "https://github.com/kesienaf/mid-project-calc-jenkins.git"
+    version: "master"
+  tags: 
+    - checkout
+
 - name: Build Maven project
   command: /opt/maven/bin/mvn clean package
   tags: 
