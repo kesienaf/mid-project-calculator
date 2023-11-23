@@ -38,7 +38,7 @@
       become: yes
 
     - name: Copy WAR files to destination servers
-      ansible.builtin.copy:
+      copy:
         src: /home/centos/mid-project-calculator/
         dest: /opt/tomcat/webapps/
       with_items: "{{ war_files.files }}"
@@ -52,7 +52,7 @@
       become: yes
 
     - name: Debug destination directory contents
-      ansible.builtin.shell: ls -l /opt/tomcat/webapps/
+      shell: ls -l /opt/tomcat/webapps/
       become: yes
 
     - name: Debug Destination Directory Permissions
