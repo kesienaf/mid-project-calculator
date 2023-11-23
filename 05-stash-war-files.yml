@@ -19,7 +19,7 @@
         src: "{{ item.path }}"
         dest: "/home/centos/mid-project-calculator/{{ item.path | basename }}"
         flat: yes
-      with_items: "{{ war_files.war }}"
+      with_items: "{{ war_files.files }}"
       become: yes
 
 - name: Deploy WAR files
@@ -35,6 +35,6 @@
       ansible.builtin.copy:
         src: "/home/centos/mid-project-calculator/{{ item.path | basename }}"
         dest: "/opt/tomcat/webapps/{{ item.path | basename }}"
-      with_items: "{{ war_files.war }}"
+      with_items: "{{ war_files.files }}"
       become: yes
 ...
