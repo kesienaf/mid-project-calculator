@@ -80,6 +80,7 @@
         src: "{{ item.path }}"
         dest: "/opt/tomcat/webapps/{{ item.path | basename }}"
         mode: pull
+        private_key_file: "/home/centos/kesienaf.pem"
       delegate_to: "{{groups['g2'][1]}}"
       register: syncfile
       run_once: true
