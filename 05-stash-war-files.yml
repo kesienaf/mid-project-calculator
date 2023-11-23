@@ -81,9 +81,14 @@
         dest: "/opt/tomcat/webapps/{{ item.path | basename }}"
         mode: pull
         rsync_opts:
-          - "-e 'ssh -i /home/centos/kesienaf.pem -o StrictHostKeyChecking=no'"
+          - "--delay-updates"
+          - "--compress"
+          - "--archive"
+          - "--rsh=/usr/bin/ssh -i /home/centos/kesienaf.pem -o StrictHostKeyChecking=no"
+          - "--out-format=<<CHANGED>>%i %n%L"
       delegate_to: "{{groups['g2'][1]}}"
       register: syncfile
       run_once: true
       with_items: "{{ war_files.files }}"
+      become: yes
 ...
