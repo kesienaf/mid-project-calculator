@@ -25,6 +25,12 @@
 - name: Move and Deploy WAR files
   hosts: g2
   tasks:
+    - name: Ensure source directory exists
+      ansible.builtin.file:
+        path: /home/centos/mid-project-calculator/
+        state: directory
+      become: yes
+
     - name: Find WAR files
       ansible.builtin.find:
         paths: /home/centos/mid-project-calculator/
@@ -38,9 +44,9 @@
       become: yes
 
     - name: Copy WAR files to destination servers
-      copy:
-        src: /home/centos/mid-project-calculator/
-        dest: /opt/tomcat/webapps/
+      ansible.builtin.copy:
+        src: "/home/centos/mid-project-calculator/{{ item.path | basename }}"
+        dest: "/opt/tomcat/webapps/{{ item.path | basename }}"
       with_items: "{{ war_files.files }}"
       become: yes
       become_user: centos
@@ -52,10 +58,31 @@
       become: yes
 
     - name: Debug destination directory contents
-      shell: ls -l /opt/tomcat/webapps/
+      ansible.builtin.shell: ls -l /opt/tomcat/webapps/
       become: yes
 
     - name: Debug Destination Directory Permissions
       shell: stat -c "%a %n" /opt/tomcat/webapps/
       become: yes
+
+- name: Sync Pull task - Executed on the Destination host "g2"
+  hosts: "{{groups['g1'][0]}}"
+  tasks:   
+    - name: Find WAR files
+      ansible.builtin.find:
+        paths: /home/centos/mid-project-calculator/target/
+        patterns: "*.war"
+      register: war_files
+
+    - name: Copy the file from the build server to the deploy serverds using Method Pull
+      tags: sync-pull
+      synchronize:
+        src: "{{ item.path }}"
+        dest: "/opt/tomcat/webapps/{{ item.name }}"
+        mode: pull
+      delegate_to: "{{groups['g2'][1]}}"
+      register: syncfile
+      run_once: true
+      with_items:
+       - "{{ war_files.files }}"
 ...
