@@ -1,5 +1,5 @@
 ---
-- name: Install Git and http
+- name: Install and Start Tomcat
   hosts: g2
   become: yes
 
