@@ -48,7 +48,6 @@
         src: "/home/centos/mid-project-calculator/{{ item.path | basename }}"
         dest: "/opt/tomcat/webapps/{{ item.path | basename }}"
       with_items: "{{ war_files.files }}"
-      when: "'g2' in inventory_hostname or 'g2' in groups"
       become: yes
 
     - name: Debug Destination Directory Permissions
