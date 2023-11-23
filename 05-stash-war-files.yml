@@ -1,5 +1,4 @@
 ---
----
 - name: Move WAR files
   hosts: g1
   tasks:
