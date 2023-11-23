@@ -49,7 +49,6 @@
         dest: "/opt/tomcat/webapps/{{ item.path | basename }}"
       with_items: "{{ war_files.files }}"
       become: yes
-      become_user: centos
     
     - name: Debug copied files
       debug:
@@ -63,32 +62,5 @@
 
     - name: Debug Destination Directory Permissions
       shell: stat -c "%a %n" /opt/tomcat/webapps/
-      become: yes
-
-- name: Sync Pull task - Executed on the Destination host "g2"
-  hosts: "{{groups['g1'][0]}}"
-  tasks:   
-    - name: Find WAR files
-      ansible.builtin.find:
-        paths: /home/centos/mid-project-calculator/target/
-        patterns: "*.war"
-      register: war_files
-
-    - name: Copy the file from the build server to the deploy serverds using Method Pull
-      tags: sync-pull
-      synchronize:
-        src: "{{ item.path }}"
-        dest: "/opt/tomcat/webapps/{{ item.path | basename }}"
-        mode: pull
-        rsync_opts:
-          - "--delay-updates"
-          - "--compress"
-          - "--archive"
-          - "--rsh=/usr/bin/ssh -i /home/centos/kesienaf.pem -o StrictHostKeyChecking=no"
-          - "--out-format=<<CHANGED>>%i %n%L"
-      delegate_to: "{{groups['g2'][1]}}"
-      register: syncfile
-      run_once: true
-      with_items: "{{ war_files.files }}"
       become: yes
 ...
