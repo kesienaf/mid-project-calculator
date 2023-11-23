@@ -31,7 +31,7 @@
     - name: Copy WAR files to destination servers
       ansible.builtin.copy:
         src: /home/centos/mid-project-calculator/
-        dest: "/opt/tomcat/webapps/
+        dest: /opt/tomcat/webapps/
       with_items: "{{ war_files.files }}"
       become: yes
 
