@@ -1,6 +1,6 @@
 ---
 - name: Move and Deploy WAR files
-  hosts: g1
+  hosts: g1:g2
   tasks:
     - name: Ensure source directory exists
       ansible.builtin.file:
@@ -22,9 +22,6 @@
       with_items: "{{ war_files.files }}"
       become: yes
 
-- name: Move and Deploy WAR files
-  hosts: g2
-  tasks:
     - name: Ensure destination directory exists
       ansible.builtin.file:
         path: /opt/tomcat/webapps/
