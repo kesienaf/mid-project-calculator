@@ -1,0 +1,20 @@
+---
+    - name: System CTL
+      ansible.builtin.command: "systemctl daemon-reload"
+      become: yes
+
+    - name: Debug output for systemd check
+      ansible.builtin.debug:
+        msg: "Systemd is {{ 'present' if 'systemd' in ansible_playbook_python | lower else 'not present' }}"
+
+    - name: Start Tomcat service
+      ansible.builtin.command: "nohup /opt/tomcat/bin/startup.sh"
+      become: yes
+      when: "'systemd' not in ansible_playbook_python | lower"
+      register: startup_result
+    
+    - name: Display startup result
+      ansible.builtin.debug:
+        var: startup_result
+      when: "'systemd' not in ansible_playbook_python | lower"
+...

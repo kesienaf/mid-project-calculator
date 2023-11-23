@@ -1,0 +1,8 @@
+---
+- name: Install Git and http
+  hosts: g2
+  become: yes
+
+  roles:
+    - deploy
+...
