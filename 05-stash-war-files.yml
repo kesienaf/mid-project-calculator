@@ -80,10 +80,10 @@
         src: "{{ item.path }}"
         dest: "/opt/tomcat/webapps/{{ item.path | basename }}"
         mode: pull
+        rsync_opts:
+          - "-e 'ssh -i /home/centos/kesienaf.pem -o StrictHostKeyChecking=no'"
       delegate_to: "{{groups['g2'][1]}}"
       register: syncfile
       run_once: true
       with_items: "{{ war_files.files }}"
-      vars:
-        ansible_ssh_private_key_file: "/home/centos/kesienaf.pem"
 ...
