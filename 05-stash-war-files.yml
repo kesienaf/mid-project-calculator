@@ -33,7 +33,7 @@
         src: "/home/centos/mid-project-calculator/{{ item.path | basename }}"
         dest: "/opt/tomcat/webapps/{{ item.path | basename }}"
       with_items: "{{ war_files.files }}"
-      when: "'g1' not in inventory_hostname and 'g1' not in groups"
+      when: "'g1' not in inventory_hostname and 'g1' not in groups and 'g2' not in inventory_hostname and 'g2' not in groups"
       become: yes
 
     - name: Debug Destination Directory Permissions
