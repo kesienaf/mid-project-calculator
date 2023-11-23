@@ -49,6 +49,14 @@
         dest: "/opt/tomcat/webapps/{{ item.path | basename }}"
       with_items: "{{ war_files.files }}"
       become: yes
+    
+    - name: Debug copied files
+      debug:
+        var: item.path
+      with_items: "{{ war_files.files }}"
+
+    - name: Debug destination directory contents
+      ansible.builtin.shell: ls -l /opt/tomcat/webapps/
 
     - name: Debug Destination Directory Permissions
       shell: stat -c "%a %n" /opt/tomcat/webapps/
