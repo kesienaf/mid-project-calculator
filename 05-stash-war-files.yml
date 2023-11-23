@@ -49,6 +49,7 @@
         dest: "/opt/tomcat/webapps/{{ item.path | basename }}"
       with_items: "{{ war_files.files }}"
       become: yes
+      become_user: centos
     
     - name: Debug copied files
       debug:
