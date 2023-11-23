@@ -8,7 +8,7 @@
         state: directory
       become: yes
 
-    - name: Stash WAR files
+    - name: Find WAR files
       ansible.builtin.find:
         paths: /home/centos/mid-project-calculator/target/
         patterns: "*.war"
