@@ -2,7 +2,7 @@
 - name: Move and Deploy WAR files
   hosts: g1
   tasks:
-    - include: 05-stash-war-files.yml
+    - include_tasks: 05-stash-war-files.yml
 
 - name: Move and Deploy WAR files
   hosts: g2
