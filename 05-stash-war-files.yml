@@ -16,8 +16,8 @@
 
     - name: Copy WAR files to Ansible Controller
       ansible.builtin.fetch:
-        src: "{{ item.path }}"
-        dest: "/home/centos/mid-project-calculator/{{ item.path | basename }}"
+        src: /home/centos/mid-project-calculator/target/
+        dest: /home/centos/mid-project-calculator/
         flat: yes
       with_items: "{{ war_files.files }}"
       become: yes
@@ -30,8 +30,8 @@
 
     - name: Copy WAR files to destination servers
       ansible.builtin.copy:
-        src: "/home/centos/mid-project-calculator/{{ item.path | basename }}"
-        dest: "/opt/tomcat/webapps/{{ item.path | basename }}"
+        src: /home/centos/mid-project-calculator/
+        dest: "/opt/tomcat/webapps/
       with_items: "{{ war_files.files }}"
       become: yes
 
