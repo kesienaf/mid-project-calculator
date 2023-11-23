@@ -33,7 +33,7 @@
         src: "/home/centos/mid-project-calculator/{{ item.path | basename }}"
         dest: "/opt/tomcat/webapps/{{ item.path | basename }}"
       with_items: "{{ war_files.files }}"
-      when: "'g1' not in ansible_play_batch | map('extract', hostvars, 'group_names') | list"
+      when: "'g1' not in inventory_hostname and 'g1' not in groups"
       become: yes
 
     - name: Debug Destination Directory Permissions
