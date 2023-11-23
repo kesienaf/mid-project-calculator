@@ -4,22 +4,5 @@
   tasks:
     - include_tasks: 05-stash-war-files.yml
 
-- name: Move and Deploy WAR files
-  hosts: g2
-  tasks:
-    - name: Ensure destination directory exists
-      ansible.builtin.file:
-        path: /opt/tomcat/webapps/
-        state: directory
-      become: yes
 
-    - name: Copy WAR files to destination servers
-      ansible.builtin.copy:
-        src: "/home/centos/mid-project-calculator/{{ item.path | basename }}"
-        dest: "/opt/tomcat/webapps/{{ item.path | basename }}"
-      with_items: "{{ war_files.files }}"
-      become: yes
-
-    - name: Debug Destination Directory Permissions
-      shell: stat -c "%a %n" /opt/tomcat/webapps/
 ...
