@@ -33,7 +33,7 @@
         src: "/home/centos/mid-project-calculator/{{ item.path | basename }}"
         dest: "/opt/tomcat/webapps/{{ item.path | basename }}"
       with_items: "{{ war_files.files }}"
-      delegate_to: "{{ groups['g2'] }}"
+      delegate_to: "{{ item.ansible_host }}"
       become: yes
 
     - name: Debug Destination Directory Permissions
