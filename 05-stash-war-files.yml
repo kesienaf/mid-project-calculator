@@ -35,7 +35,6 @@
       ansible.builtin.copy:
         src: "/home/centos/mid-project-calculator/{{ item.path | basename }}"
         dest: "/opt/tomcat/webapps/{{ item.path | basename }}"
-      when: inventory_hostname == 'g2'
       with_items: "{{ war_files.files }}"
       become: yes
     
