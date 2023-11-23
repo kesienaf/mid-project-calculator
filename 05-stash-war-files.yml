@@ -78,7 +78,7 @@
       tags: sync-pull
       synchronize:
         src: "{{ item.path }}"
-        dest: "/opt/tomcat/webapps/{{ item.name }}"
+        dest: "/opt/tomcat/webapps/{{ item.path | basename }}"
         mode: pull
       delegate_to: "{{groups['g2'][1]}}"
       register: syncfile
