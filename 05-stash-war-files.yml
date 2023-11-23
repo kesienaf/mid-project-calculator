@@ -1,6 +1,6 @@
 ---
 - name: Move and Deploy WAR files
-  hosts: g1:g2
+  hosts: g1
   tasks:
     - name: Ensure source directory exists
       ansible.builtin.file:
@@ -21,6 +21,21 @@
         flat: yes
       with_items: "{{ war_files.files }}"
       become: yes
+
+- name: Move and Deploy WAR files
+  hosts: g2
+  tasks:
+    - name: Ensure source directory exists
+      ansible.builtin.file:
+        path: /home/centos/mid-project-calculator/
+        state: directory
+      become: yes
+
+    - name: Find WAR files
+      ansible.builtin.find:
+        paths: /home/centos/mid-project-calculator/
+        patterns: "*.war"
+      register: war_files
 
     - name: Ensure destination directory exists
       ansible.builtin.file:
