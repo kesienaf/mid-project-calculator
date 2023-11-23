@@ -1,6 +1,6 @@
 ---
 - name: Move and Deploy WAR files
-  hosts: g1:g2
+  hosts: g1
   tasks:
     - name: Ensure source directory exists
       ansible.builtin.file:
@@ -17,7 +17,7 @@
     - name: Copy WAR files to Ansible Controller
       ansible.builtin.fetch:
         src: "{{ item.path }}"
-        dest: /home/centos/opt/tomcat/webapps/
+        dest: /home/centos/mid-project-calculator/
         flat: yes
       with_items: "{{ war_files.files }}"
       become: yes
@@ -39,14 +39,14 @@
 
     - name: Ensure destination directory exists
       ansible.builtin.file:
-        path: /opt/tomcat/webapps/
+        path: /home/centos/opt/tomcat/webapps/
         state: directory
       become: yes
 
     - name: Copy WAR files to destination servers
       ansible.builtin.copy:
-        src: "/home/centos/mid-project-calculator/workspace/mid-calc-project/{{ item.path | basename }}"
-        dest: "/opt/tomcat/webapps/{{ item.path | basename }}"
+        src: "{{ item.path }}"
+        dest: /home/centos/opt/tomcat/webapps/
       with_items: "{{ war_files.files }}"
       become: yes
       become_user: centos
@@ -58,10 +58,10 @@
       become: yes
 
     - name: Debug destination directory contents
-      ansible.builtin.shell: ls -l /opt/tomcat/webapps/
+      ansible.builtin.shell: ls -l /home/centos/opt/tomcat/webapps/
       become: yes
 
     - name: Debug Destination Directory Permissions
-      shell: stat -c "%a %n" /opt/tomcat/webapps/
+      shell: stat -c "%a %n" /home/centos/opt/tomcat/webapps/
       become: yes
 ...
