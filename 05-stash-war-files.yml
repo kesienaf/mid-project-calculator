@@ -25,11 +25,18 @@
 - name: Move and Deploy WAR files
   hosts: g2
   tasks:
+    - name: Find WAR files
+      ansible.builtin.find:
+        paths: "/home/centos/mid-project-calculator/"
+        patterns: "*.war"
+      register: war_files
+
     - name: Copy WAR files to destination servers
       ansible.builtin.copy:
-        src: "/home/centos/mid-project-calculator/WebAppCal-0.6.6.war"
+        src: "{{ item.path }}"
         dest: "/opt/tomcat/webapps/"
       become: yes
+      with_items: "{{ war_files.files }}"
 
     - name: Debug destination directory contents
       ansible.builtin.shell: ls -l /opt/tomcat/webapps/
