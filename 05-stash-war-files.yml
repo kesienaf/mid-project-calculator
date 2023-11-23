@@ -18,7 +18,7 @@
     - name: Copy WAR files to Ansible Controller
       ansible.builtin.fetch:
         src: "{{ item.path }}"
-        dest: "/opt/tomcat/webapps/"
+        dest: "/home/centos"
         flat: yes
       with_items: "{{ war_files.files }}"
       become: yes
@@ -34,44 +34,8 @@
 
     - name: Copy WAR files to destination servers
       ansible.builtin.copy:
-        src: "/opt/tomcat/webapps/{{ item.path | basename }}"
+        src: "/home/centos/{{ item.path | basename }}"
         dest: "/opt/tomcat/webapps/{{ item.path | basename }}"
       with_items: "{{ war_files.files }}"
-      become: yes
-
-
-
-- name: Transfer WAR files
-  hosts: g1
-  tasks:
-    - name: Ensure source directory exists
-      ansible.builtin.file:
-        path: /home/centos/mid-project-calculator/target/
-        state: directory
-      become: yes
-      delegate_to: g1 
-
-    - name: Synchronize WAR files to destination
-      ansible.builtin.synchronize:
-        src: /home/centos/mid-project-calculator/target/
-        dest: /opt/tomcat/webapps/
-        rsync_opts: --include='*.war' --exclude='*'
-      become: yes
-
-- name: Ensure Tomcat directory exists
-  hosts: g2
-  tasks:
-    - name: Ensure Tomcat directory exists
-      ansible.builtin.file:
-        path: /opt/tomcat/webapps/
-        state: directory
-      become: yes
-
-    - name: Set permissions for Tomcat directory
-      ansible.builtin.file:
-        path: /opt/tomcat/webapps/
-        mode: '0755'
-      when: "'0755' != (item.stat.mode | regex_replace('(\\d{3})$', '\\1'))"
-      loop: "{{ ansible_play_batch }}"
       become: yes
 ...
