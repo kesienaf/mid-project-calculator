@@ -13,24 +13,24 @@
 
     - name: Ensure the target directory exists
       ansible.builtin.file:
-        path: /tmp/fetched_files/
+        path: /home/centos/mid-project-calculator
         state: directory
 
     - name: Copy files to control node
       ansible.builtin.shell:
-        cmd: "rsync -a /home/centos/mid-project-calculator/target/*.war /tmp/fetched_files/"
+        cmd: "rsync -a /home/centos/mid-project-calculator/target/*.war /home/centos/mid-project-calculator/"
       args:
         executable: /bin/bash
       register: rsync_output
 
     - name: Set global variable for fetched files
       ansible.builtin.set_fact:
-        fetched_files_path: "/tmp/fetched_files"
+        fetched_files_path: "/home/centos/mid-project-calculator"
       when: rsync_output.changed
 
     - name: Debug - List files in the control node directory
       ansible.builtin.shell:
-        cmd: "ls -l /tmp/fetched_files"
+        cmd: "ls -l /home/centos/mid-project-calculator"
       changed_when: false
 
     - debug:
@@ -46,14 +46,8 @@
 
     - name: Copy files to destination server
       ansible.builtin.copy:
-        src: "/tmp/fetched_files/{{ item | basename }}"
+        src: "/home/centos/mid-project-calculator/{{ item | basename }}"
         dest: "/opt/tomcat/webapps/{{ item | basename }}"
       with_fileglob:
-        - "/tmp/fetched_files/*.war"
-
-    - name: Clean up temporary files on the control node
-      ansible.builtin.file:
-        path: "/tmp/fetched_files/"
-        state: absent
-      when: fetched_files_path is defined
+        - "/home/centos/mid-project-calculator/*.war"
 ...
