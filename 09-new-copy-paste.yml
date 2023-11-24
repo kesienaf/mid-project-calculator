@@ -57,6 +57,7 @@
       ansible.builtin.file:
         path: "/opt/tomcat/webapps/{{ item.path | basename }}"
         state: absent
+        force: yes
       with_items: "{{ war_files.files }}"
       when: war_files.matched > 0  # Only remove if there are previous files
       become: yes
