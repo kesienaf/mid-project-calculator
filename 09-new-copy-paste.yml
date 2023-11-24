@@ -1,6 +1,6 @@
 ---
 - name: Copy File to Another Server
-  hosts: source_server
+  hosts: g1
   tasks:
     - name: Debug - List files in the source directory
       ansible.builtin.shell:
