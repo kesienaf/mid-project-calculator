@@ -46,14 +46,14 @@
 
     - name: Copy files to destination server
       ansible.builtin.copy:
-        src: "{{ fetched_files_path }}/{{ item | basename }}"
+        src: "/tmp/fetched_files/{{ item | basename }}"
         dest: "/opt/tomcat/webapps/{{ item | basename }}"
       with_fileglob:
-        - "{{ fetched_files_path }}/*.war"
+        - "/tmp/fetched_files/*.war"
 
     - name: Clean up temporary files on the control node
       ansible.builtin.file:
-        path: "{{ fetched_files_path }}"
+        path: "/tmp/fetched_files/"
         state: absent
       when: fetched_files_path is defined
 ...
