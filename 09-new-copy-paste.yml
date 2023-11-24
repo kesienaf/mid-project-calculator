@@ -2,39 +2,25 @@
 - name: Copy File to Another Server
   hosts: g1
   tasks:
-    - name: Debug - List files in the source directory
-      ansible.builtin.shell:
-        cmd: "ls -l /home/centos/mid-project-calculator/target/*.war"
-      register: ls_output
-      changed_when: false
-
-    - debug:
-        var: ls_output.stdout_lines
-
-    - name: Ensure the target directory exists
+    - name: Ensure source directory exists
       ansible.builtin.file:
-        path: /home/centos/mid-project-calculator
+        path: /home/centos/mid-project-calculator/target/
         state: directory
+      become: yes
 
-    - name: Copy files to control node
-      ansible.builtin.shell:
-        cmd: "rsync -a /home/centos/mid-project-calculator/target/*.war /home/centos/mid-project-calculator/"
-      args:
-        executable: /bin/bash
-      register: rsync_output
+    - name: Find WAR files
+      ansible.builtin.find:
+        paths: /home/centos/mid-project-calculator/target/
+        patterns: "*.war"
+      register: war_files
 
-    - name: Set global variable for fetched files
-      ansible.builtin.set_fact:
-        fetched_files_path: "/home/centos/mid-project-calculator"
-      when: rsync_output.changed
-
-    - name: Debug - List files in the control node directory
-      ansible.builtin.shell:
-        cmd: "ls -l /home/centos/mid-project-calculator"
-      changed_when: false
-
-    - debug:
-        var: rsync_output
+    - name: Copy WAR files to Ansible Controller
+      ansible.builtin.fetch:
+        src: "{{ item.path }}"
+        dest: /home/centos/mid-project-calculator/
+        flat: yes
+      with_items: "{{ war_files.files }}"
+      become: yes
 
 - name: Template and Copy File to Destination Server
   hosts: g2
