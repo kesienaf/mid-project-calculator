@@ -1,7 +1,10 @@
 ---
 - name: Remove contents of the directory
   command: "rm -r /home/centos/mid-project-calculator/*"
+  args:
+    warn: no
   become: yes
+  ignore_errors: yes
 
 - name: Checkout source code
   git:
