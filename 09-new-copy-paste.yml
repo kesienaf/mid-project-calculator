@@ -65,7 +65,7 @@
       debug:
         var: inventory_hostname
 
-    - command: chmod rm -r /opt/tomcat/webapps/*.war
+    - command: rm -r "/opt/tomcat/webapps/*.war"
       when: ansible_distribution == "Ubuntu"
       become: yes
 
