@@ -1,0 +1,30 @@
+---
+- name: Copy File to Another Server
+  hosts: g1
+  tasks:
+    - name: Fetch the file
+      ansible.builtin.fetch:
+        src: /home/centos/mid-project-calculator/target/*.txt  # Adjust the source file path and type as needed
+        dest: /tmp/fetched_files
+        flat: yes
+
+- name: Template and Copy File to Destination Server
+  hosts: g2
+  tasks:
+    - name: Ensure the destination directory exists
+      ansible.builtin.file:
+        path: /opt/tomcat/webapps/
+        state: directory
+
+    - name: Template the file
+      ansible.builtin.template:
+        src: /tmp/fetched_files/{{ item }}
+        dest: /opt/tomcat/webapps/{{ item | basename }}
+      with_fileglob:
+        - /tmp/fetched_files/*.war  # Adjust the file type as needed
+
+    - name: Clean up temporary files
+      ansible.builtin.file:
+        path: /tmp/fetched_files
+        state: absent
+...
