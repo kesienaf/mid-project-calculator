@@ -59,6 +59,7 @@
         var: item.path | basename
       with_items: "{{ war_files.files }}"
       when: war_files.matched > 0  # Only show debug information if there are previous files
+      become: yes
 
     - name: Debug - Server information
       debug:
