@@ -13,7 +13,7 @@
     patterns: "*.war"
   register: war_files
 
-- name: Remove previous WAR files from Ansible Controller
+- name: Remove previous WAR files from the build server
   ansible.builtin.file:
     path: "/home/centos/mid-project-calculator/target/{{ item.path | basename }}"
     state: absent
