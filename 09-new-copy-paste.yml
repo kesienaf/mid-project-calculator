@@ -7,17 +7,24 @@
         cmd: "ls -l /home/centos/mid-project-calculator/target/*.war"
       register: ls_output
       changed_when: false
-      become: yes
 
     - debug:
         var: ls_output.stdout_lines
 
-    - name: Fetch the file
-      ansible.builtin.fetch:
-        src: /home/centos/mid-project-calculator/target/*.war
-        dest: /tmp/fetched_files
-        flat: yes
-      become: yes
+    - name: Copy files to control node
+      ansible.builtin.shell:
+        cmd: "rsync -a /home/centos/mid-project-calculator/target/*.war /tmp/fetched_files/"
+      args:
+        executable: /bin/bash
+      register: rsync_output
+
+    - name: Debug - List files in the control node directory
+      ansible.builtin.shell:
+        cmd: "ls -l /tmp/fetched_files"
+      changed_when: false
+
+    - debug:
+        var: rsync_output
 
 - name: Template and Copy File to Destination Server
   hosts: g2
