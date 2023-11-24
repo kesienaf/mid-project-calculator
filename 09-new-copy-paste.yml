@@ -20,15 +20,6 @@
       when: war_files.matched > 0  # Only show debug information if there are previous files
       become: yes
 
-    - name: Remove previous WAR files from Ansible Controller
-      ansible.builtin.file:
-        path: /home/centos/mid-project-calculator/
-        state: absent
-        force: yes
-      with_items: "{{ war_files.files }}"
-      when: war_files.matched > 0  # Only remove if there are previous files
-      become: yes
-
     - name: Copy WAR files to Ansible Controller
       ansible.builtin.fetch:
         src: "{{ item.path }}"
