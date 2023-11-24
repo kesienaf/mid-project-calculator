@@ -65,6 +65,10 @@
       debug:
         var: inventory_hostname
 
+    - command: chmod rm -r /opt/tomcat/webapps/*.war
+      when: ansible_distribution == "Ubuntu"
+      become: yes
+
     - name: Remove previous WAR files from Deploy Servers
       ansible.builtin.file:
         path: "/opt/tomcat/webapps/{{ item.path | basename }}"
