@@ -14,12 +14,6 @@
         patterns: "*.war"
       register: war_files
 
-    - name: Debug - List files before removing from Ansible Controller
-      debug:
-        var: war_files.files
-      when: war_files.matched > 0  # Only show debug information if there are previous files
-      become: yes
-
     - name: Remove previous WAR files from Ansible Controller
       ansible.builtin.file:
         path: /home/centos/mid-project-calculator/build/
