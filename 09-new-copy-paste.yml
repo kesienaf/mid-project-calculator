@@ -15,7 +15,7 @@
       ansible.builtin.file:
         path: /tmp/fetched_files/
         state: directory
-    
+
     - name: Copy files to control node
       ansible.builtin.shell:
         cmd: "rsync -a /home/centos/mid-project-calculator/target/*.war /tmp/fetched_files/"
@@ -47,7 +47,7 @@
     - name: Copy files to destination server
       ansible.builtin.copy:
         src: "{{ fetched_files_path }}/{{ item | basename }}"
-        dest: "/path/to/destination/directory/{{ item | basename }}"
+        dest: "/opt/tomcat/webapps/{{ item | basename }}"
       with_fileglob:
         - "{{ fetched_files_path }}/*.war"
 
