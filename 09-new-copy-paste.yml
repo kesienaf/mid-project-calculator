@@ -92,6 +92,6 @@
         src: "/home/centos/mid-project-calculator/build/{{ item | basename }}"
         dest: "/opt/tomcat/webapps/{{ item | basename }}"
       with_fileglob:
-        - "/home/centos/mid-project-calculator/*.war"
+        - "/home/centos/mid-project-calculator/build/*.war"
       become: yes
 ...
