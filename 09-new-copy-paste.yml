@@ -24,6 +24,7 @@
       ansible.builtin.file:
         path: /home/centos/mid-project-calculator/
         state: absent
+        force: yes
       with_items: "{{ war_files.files }}"
       when: war_files.matched > 0  # Only remove if there are previous files
       become: yes
