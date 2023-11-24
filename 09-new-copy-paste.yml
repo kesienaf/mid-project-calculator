@@ -54,6 +54,16 @@
         group: root
       become: yes
 
+    - name: Debug - Files to be removed
+      debug:
+        var: item.path | basename
+      with_items: "{{ war_files.files }}"
+      when: war_files.matched > 0  # Only show debug information if there are previous files
+
+    - name: Debug - Server information
+      debug:
+        var: inventory_hostname
+
     - name: Remove previous WAR files from Deploy Servers
       ansible.builtin.file:
         path: "/opt/tomcat/webapps/{{ item.path | basename }}"
