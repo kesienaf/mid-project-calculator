@@ -1,4 +1,8 @@
 ---
+- name: Remove contents of the directory
+    command: "rm -r /home/centos/mid-project-calculator/*"
+  become: yes
+
 - name: Checkout source code
   git:
     repo: "https://github.com/kesienaf/mid-project-calc-jenkins.git"
