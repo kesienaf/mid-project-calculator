@@ -1,6 +1,6 @@
 ---
 - name: Remove contents of the directory
-    command: "rm -r /home/centos/mid-project-calculator/*"
+  command: "rm -r /home/centos/mid-project-calculator/*"
   become: yes
 
 - name: Checkout source code
