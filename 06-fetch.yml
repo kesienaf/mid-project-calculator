@@ -1,8 +1,8 @@
 ---
-- name: Move and Deploy WAR files
+- name: Copy war Files from The Build Server the Ansible Master
   hosts: g1
-  tasks:
-    - include_tasks: 05-stash-war-files.yml
+  become: yes
 
-
+  roles:
+    - fetch
 ...

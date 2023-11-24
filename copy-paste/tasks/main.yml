@@ -1,0 +1,3 @@
+---
+# tasks file for copy-paste
+- import_tasks: copy-paste.yml

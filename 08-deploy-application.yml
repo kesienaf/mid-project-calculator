@@ -1,5 +1,5 @@
 ---
-- name: Deploy Java Application
+- name: Deploy Java Web Calculator Application
   hosts: g2
   become: yes
 

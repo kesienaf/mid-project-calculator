@@ -1,7 +1,0 @@
----
-    - name: Find war files
-      ansible.builtin.find:
-        paths: "/path/to/checkout/target/"
-        patterns: "*.war"
-      register: war_files
-...

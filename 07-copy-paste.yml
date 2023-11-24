@@ -1,0 +1,8 @@
+---
+- name: Copy war Files from the Ansiblle Master to the Deploy Servers
+  hosts: g2
+  become: yes
+
+  roles:
+    - fetch
+...

@@ -1,0 +1,15 @@
+---
+    - name: Copy WAR files to destination servers
+      ansible.builtin.copy:
+        src: "/home/centos/mid-project-calculator/WebAppCal-0.6.6.war"
+        dest: "/opt/tomcat/webapps/"
+      become: yes
+
+    - name: Debug destination directory contents
+      ansible.builtin.shell: ls -l /opt/tomcat/webapps/
+      become: yes
+
+    - name: Debug Destination Directory Permissions
+      shell: stat -c "%a %n" /opt/tomcat/webapps/
+      become: yes
+...
