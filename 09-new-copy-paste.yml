@@ -14,12 +14,6 @@
         patterns: "*.war"
       register: war_files
 
-    - name: Find WAR files
-      ansible.builtin.find:
-        paths: /home/centos/mid-project-calculator/
-        patterns: "*.war"
-      register: war_files
-
     - name: Remove previous WAR files from Ansible Controller
       ansible.builtin.file:
         path: /home/centos/mid-project-calculator/
@@ -37,7 +31,7 @@
       with_items: "{{ war_files.files }}"
       become: yes
 
-- name: Template and Copy File to Destination Server
+- name: Copy and Paste war Files to Deploy Servers
   hosts: g2
   tasks:
     - name: Find WAR files
