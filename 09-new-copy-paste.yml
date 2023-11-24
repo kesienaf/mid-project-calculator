@@ -23,6 +23,11 @@
         executable: /bin/bash
       register: rsync_output
 
+    - name: Set global variable for fetched files
+      ansible.builtin.set_fact:
+        fetched_files_path: "/tmp/fetched_files"
+      when: rsync_output.changed
+
     - name: Debug - List files in the control node directory
       ansible.builtin.shell:
         cmd: "ls -l /tmp/fetched_files"
@@ -39,15 +44,16 @@
         path: /opt/tomcat/webapps/
         state: directory
 
-    - name: Template the file
-      ansible.builtin.template:
-        src: /tmp/fetched_files/{{ item }}
-        dest: /opt/tomcat/webapps/{{ item | basename }}
+    - name: Copy files to destination server
+      ansible.builtin.copy:
+        src: "{{ fetched_files_path }}/{{ item | basename }}"
+        dest: "/path/to/destination/directory/{{ item | basename }}"
       with_fileglob:
-        - /tmp/fetched_files/*.war  # Adjust the file type as needed
+        - "{{ fetched_files_path }}/*.war"
 
-    - name: Clean up temporary files
+    - name: Clean up temporary files on the control node
       ansible.builtin.file:
-        path: /tmp/fetched_files
+        path: "{{ fetched_files_path }}"
         state: absent
+      when: fetched_files_path is defined
 ...
