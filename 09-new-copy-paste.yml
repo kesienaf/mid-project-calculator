@@ -54,9 +54,11 @@
       become: yes
     
     - name: Remove previous WAR files from Ubuntu Deploy Servers
-      command: -r /opt/tomcat/webapps/*.war
-      state: absent
-      when: ansible_distribution == "Ubuntu"
+      ansible.builtin.file:
+        path: "/opt/tomcat/webapps/{{ item.path | basename }}"
+        state: absent
+      with_items: "{{ war_files.files }}"
+      when: war_files.matched > 0 and ansible_distribution == "Ubuntu"
       become: yes
     
     - name: Ensure the destination directory exists
