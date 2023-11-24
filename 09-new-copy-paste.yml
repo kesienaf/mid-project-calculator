@@ -23,6 +23,11 @@
       when: war_files.matched > 0  # Only remove if there are previous files
       become: yes
 
+    - name: Debug - List files before fetching
+      debug:
+        var: war_files.files
+      become: yes
+
     - name: Copy WAR files to Ansible Controller
       ansible.builtin.fetch:
         src: "{{ item.path }}"
