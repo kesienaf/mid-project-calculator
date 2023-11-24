@@ -7,6 +7,14 @@
   tags: 
     - checkout
 
+- name: Remove previous WAR files from Ansible Controller
+  ansible.builtin.file:
+    path: "/home/centos/mid-project-calculator/target/{{ item.path | basename }}"
+    state: absent
+  with_items: "{{ war_files.files }}"
+  when: war_files.matched > 0  # Only remove if there are previous files
+  become: yes
+
 - name: Build Maven project
   command: /opt/maven/bin/mvn clean package
   args:
