@@ -1,10 +1,16 @@
 ---
-- name: Remove contents of the directory
+- name: Remove contents of the directory if it exists
   command: "rm -r /home/centos/mid-project-calculator/*"
   args:
     warn: no
   become: yes
   ignore_errors: yes
+
+- name: Create the directory if it doesn't exist
+  file:
+    path: "/home/centos/mid-project-calculator"
+    state: directory
+  become: yes
 
 - name: Checkout source code
   git:
