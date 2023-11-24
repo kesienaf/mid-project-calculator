@@ -7,6 +7,12 @@
   tags: 
     - checkout
 
+- name: Find WAR files
+  ansible.builtin.find:
+    paths: /home/centos/mid-project-calculator/target/
+    patterns: "*.war"
+  register: war_files
+
 - name: Remove previous WAR files from Ansible Controller
   ansible.builtin.file:
     path: "/home/centos/mid-project-calculator/target/{{ item.path | basename }}"
