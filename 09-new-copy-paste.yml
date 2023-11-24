@@ -1,12 +1,23 @@
 ---
 - name: Copy File to Another Server
-  hosts: g1
+  hosts: source_server
   tasks:
+    - name: Debug - List files in the source directory
+      ansible.builtin.shell:
+        cmd: "ls -l /home/centos/mid-project-calculator/target/*.war"
+      register: ls_output
+      changed_when: false
+      become: yes
+
+    - debug:
+        var: ls_output.stdout_lines
+
     - name: Fetch the file
       ansible.builtin.fetch:
-        src: /home/centos/mid-project-calculator/target/*.war  # Adjust the source file path and type as needed
+        src: /home/centos/mid-project-calculator/target/*.war
         dest: /tmp/fetched_files
         flat: yes
+      become: yes
 
 - name: Template and Copy File to Destination Server
   hosts: g2
