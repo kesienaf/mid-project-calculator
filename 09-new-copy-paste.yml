@@ -65,7 +65,7 @@
       debug:
         var: inventory_hostname
 
-    - command: rm -r "/opt/tomcat/webapps/*.war"
+    - shell: find /opt/tomcat/webapps/ -name "*.war" -exec rm -r {} \;
       when: ansible_distribution == "Ubuntu"
       become: yes
 
