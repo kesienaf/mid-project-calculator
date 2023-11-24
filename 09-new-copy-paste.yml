@@ -4,7 +4,7 @@
   tasks:
     - name: Fetch the file
       ansible.builtin.fetch:
-        src: /home/centos/mid-project-calculator/target/*.txt  # Adjust the source file path and type as needed
+        src: /home/centos/mid-project-calculator/target/*.war  # Adjust the source file path and type as needed
         dest: /tmp/fetched_files
         flat: yes
 
