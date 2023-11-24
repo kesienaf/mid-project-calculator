@@ -1,8 +1,82 @@
 ---
-- name: Copy war Files from the Ansiblle Master to the Deploy Servers
-  hosts: g2
-  become: yes
+- name: Copy File to Another Server
+  hosts: g1
+  tasks:
+    - name: Ensure source directory exists
+      ansible.builtin.file:
+        path: /home/centos/mid-project-calculator/target/
+        state: directory
+      become: yes
 
-  roles:
-    - fetch
+    - name: Find WAR files
+      ansible.builtin.find:
+        paths: /home/centos/mid-project-calculator/target/
+        patterns: "*.war"
+      register: war_files
+
+    - name: Copy WAR files to Ansible Controller
+      ansible.builtin.fetch:
+        src: "{{ item.path }}"
+        dest: /home/centos/mid-project-calculator/build/
+        flat: yes
+      with_items: "{{ war_files.files }}"
+      become: yes
+
+- name: Copy and Paste war Files to Deploy Servers
+  hosts: g2
+  tasks:
+    - name: Find WAR files
+      ansible.builtin.find:
+        paths: /opt/tomcat/webapps/
+        patterns: "*.war"
+      register: war_files
+
+    - name: Set ownership of /opt/tomcat/webapps/
+      ansible.builtin.file:
+        path: /opt/tomcat/webapps/
+        state: directory
+        owner: root
+        group: root
+      become: yes
+
+    - name: Debug - Files to be removed
+      debug:
+        var: item.path | basename
+      with_items: "{{ war_files.files }}"
+      when: war_files.matched > 0  # Only show debug information if there are previous files
+      become: yes
+
+    - name: Debug - Server information
+      debug:
+        var: inventory_hostname
+
+    - shell: find /opt/tomcat/webapps/ -name "*.war" -exec rm -r {} \;
+      when: ansible_distribution == "Ubuntu"
+      become: yes
+
+    - shell: find /opt/tomcat/webapps/ -name "*.war" -exec rm -r {} \;
+      when: ansible_distribution == "Amazon"
+      become: yes
+
+    - name: Remove previous WAR files from Deploy Servers
+      ansible.builtin.file:
+        path: "/opt/tomcat/webapps/{{ item.path | basename }}"
+        state: absent
+        force: yes
+      with_items: "{{ war_files.files }}"
+      when: war_files.matched > 0  # Only remove if there are previous files
+      become: yes
+    
+    - name: Ensure the destination directory exists
+      ansible.builtin.file:
+        path: /opt/tomcat/webapps/
+        state: directory
+
+    - name: Copy files to destination server
+      ansible.builtin.copy:
+        src: "/home/centos/mid-project-calculator/build/{{ item | basename }}"
+        dest: "/opt/tomcat/webapps/{{ item | basename }}"
+      with_fileglob:
+        - "/home/centos/mid-project-calculator/build/*.war"
+      become: yes
 ...

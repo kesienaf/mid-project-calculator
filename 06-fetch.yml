@@ -1,8 +1,0 @@
----
-- name: Copy war Files from The Build Server the Ansible Master
-  hosts: g1
-  become: yes
-
-  roles:
-    - fetch
-...
