@@ -54,7 +54,8 @@
       become: yes
     
     - name: Remove previous WAR files from Ubuntu Deploy Servers
-      command: rm -r /opt/tomcat/webapps/*.war
+      command: -r /opt/tomcat/webapps/*.war
+        state: absent
       when: ansible_distribution == "Ubuntu"
       become: yes
     
