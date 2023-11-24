@@ -14,6 +14,20 @@
         patterns: "*.war"
       register: war_files
 
+    - name: Find WAR files
+      ansible.builtin.find:
+        paths: /home/centos/mid-project-calculator/
+        patterns: "*.war"
+      register: war_files
+
+    - name: Remove previous WAR files from Ansible Controller
+      ansible.builtin.file:
+        path: "/home/centos/mid-project-calculator/{{ item.path | basename }}"
+        state: absent
+      with_items: "{{ war_files.files }}"
+      when: war_files.matched > 0  # Only remove if there are previous files
+      become: yes
+
     - name: Copy WAR files to Ansible Controller
       ansible.builtin.fetch:
         src: "{{ item.path }}"
@@ -25,6 +39,20 @@
 - name: Template and Copy File to Destination Server
   hosts: g2
   tasks:
+    - name: Find WAR files
+      ansible.builtin.find:
+        paths: /opt/tomcat/webapps/
+        patterns: "*.war"
+      register: war_files
+
+    - name: Remove previous WAR files from Ansible Controller
+      ansible.builtin.file:
+        path: "/opt/tomcat/webapps/{{ item.path | basename }}"
+        state: absent
+      with_items: "{{ war_files.files }}"
+      when: war_files.matched > 0  # Only remove if there are previous files
+      become: yes
+    
     - name: Ensure the destination directory exists
       ansible.builtin.file:
         path: /opt/tomcat/webapps/
