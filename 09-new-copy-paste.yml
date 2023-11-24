@@ -36,4 +36,5 @@
         dest: "/opt/tomcat/webapps/{{ item | basename }}"
       with_fileglob:
         - "/home/centos/mid-project-calculator/*.war"
+      become: yes
 ...
