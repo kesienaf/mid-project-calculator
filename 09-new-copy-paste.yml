@@ -1,4 +1,23 @@
 ---
+- name: Remove Previous WAR files from Ansible Controller
+  hosts: localhost  # Assuming the Ansible controller is localhost
+  gather_facts: false  # No need to gather facts for the localhost
+  tasks:
+    - name: Find Previous WAR files on Ansible Controller
+      ansible.builtin.find:
+        paths: /home/centos/mid-project-calculator/build/
+        patterns: "*.war"
+      register: previous_war_files
+
+    - name: Remove Previous WAR files from Ansible Controller
+      ansible.builtin.file:
+        path: "{{ item.path }}"
+        state: absent
+        force: yes
+      with_items: "{{ previous_war_files.files }}"
+      when: previous_war_files.matched > 0  # Only remove if there are previous files
+      become: yes
+
 - name: Copy File to Another Server
   hosts: g1
   tasks:
@@ -13,15 +32,6 @@
         paths: /home/centos/mid-project-calculator/target/
         patterns: "*.war"
       register: war_files
-
-    - name: Remove previous WAR files from Ansible Controller
-      ansible.builtin.file:
-        path: /home/centos/mid-project-calculator/build/
-        state: absent
-        force: yes
-      with_items: "{{ war_files.files }}"
-      when: war_files.matched > 0  # Only remove if there are previous files
-      become: yes
 
     - name: Copy WAR files to Ansible Controller
       ansible.builtin.fetch:
