@@ -45,12 +45,17 @@
         patterns: "*.war"
       register: war_files
 
-    - name: Remove previous WAR files from Ansible Controller
+    - name: Remove previous WAR files from Deploy Servers
       ansible.builtin.file:
         path: "/opt/tomcat/webapps/{{ item.path | basename }}"
         state: absent
       with_items: "{{ war_files.files }}"
       when: war_files.matched > 0  # Only remove if there are previous files
+      become: yes
+    
+    - name: Remove previous WAR files from Ubuntu Deploy Servers
+      command: rm -r /opt/tomcat/webapps/*.war
+      when: ansible_distribution == "Ubuntu"
       become: yes
     
     - name: Ensure the destination directory exists
