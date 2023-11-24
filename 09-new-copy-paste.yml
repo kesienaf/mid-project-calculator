@@ -11,6 +11,11 @@
     - debug:
         var: ls_output.stdout_lines
 
+    - name: Ensure the target directory exists
+      ansible.builtin.file:
+        path: /tmp/fetched_files/
+        state: directory
+    
     - name: Copy files to control node
       ansible.builtin.shell:
         cmd: "rsync -a /home/centos/mid-project-calculator/target/*.war /tmp/fetched_files/"
