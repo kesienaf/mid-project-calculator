@@ -1,0 +1,9 @@
+---
+- name: Remove Previous WAR files from Ansible Controller
+  hosts: localhost  # Assuming the Ansible controller is localhost
+  gather_facts: false  # No need to gather facts for the localhost
+  become: yes
+
+  roles:
+    - remove-war-files
+...

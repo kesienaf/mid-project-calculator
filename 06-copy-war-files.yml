@@ -1,0 +1,8 @@
+---
+- name: Copy File to Ansible Master Server
+  hosts: g1
+  become: yes
+
+  roles:
+    - copy
+...

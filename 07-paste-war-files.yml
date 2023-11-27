@@ -1,0 +1,8 @@
+---
+- name: Paste war Files to Deploy Servers
+  hosts: g2
+  become: yes
+
+  roles:
+    - paste
+...

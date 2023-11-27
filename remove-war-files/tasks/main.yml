@@ -1,0 +1,3 @@
+---
+# tasks file for stash
+- import_tasks: remove-war-files.yml

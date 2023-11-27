@@ -14,7 +14,7 @@
     - name: Copy WAR files to Ansible Controller
       ansible.builtin.fetch:
         src: "{{ item.path }}"
-        dest: /home/centos/mid-project-calculator/
+        dest: /home/centos/mid-project-calculator/build/
         flat: yes
       with_items: "{{ war_files.files }}"
       become: yes
